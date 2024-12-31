@@ -58,3 +58,15 @@ body {
 .search.active .btn {
         transform: translateX(198px);
 }
+
+/* search with just css no javascript */
+
+/* #my-search {
+        width: 50px;
+        transition: 1s linear;
+}
+
+#my-search:focus {
+        width: 300px;
+        animation: width 1s ease 2s;
+} */
