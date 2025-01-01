@@ -1,18 +1,63 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+:root {
+  --left-bg-color: rgba (87, 84, 236, 0.7);
+  --right-bg-color: rgba (43, 43, 43, 0.7)
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  width: 100%;
+  height: 100vh;
   font-family: 'Roboto', sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
   overflow-x: hidden;
+  margin: 0;
 }
 
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+}
+
+.split {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.split.left {
+  left: 0;
+  background: url("/assets/mae-mu-z8PEoNIlGlg-unsplash\ \(1\).jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.split.left::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--left-bg-color);
+
+}
+
+.split.right {
+  right: 0;
+  background: url("/assets/soliman-cifuentes-mhad_4H6S14-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.split.right::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--right-bg-color);
+
+}
