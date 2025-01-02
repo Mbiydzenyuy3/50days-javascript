@@ -1,14 +1,35 @@
-const panels = document.querySelectorAll(".panel");
+const jokes = document.getElementById("joke");
+const jokeBtn = document.getElementById("jokeBtn");
 
-panels.forEach((panel) => {
-  panel.addEventListener("click", () => {
-    removeActiveClasses();
-    panel.classList.add("active");
-  });
-});
+jokeBtn.addEventListener("click", generateJoke);
 
-function removeActiveClasses() {
-  panels.forEach((panel) => {
-    panel.classList.remove("active");
-  });
+generateJoke();
+// using async await
+async function generateJoke() {
+  const config = {
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  const res = await fetch("https://icanhazdadjoke.com", config);
+
+  const data = await res.json();
+
+  jokes.innerHTML = data.joke;
 }
+
+// using .then()
+// function generateJoke() {
+//   const config = {
+//     headers: {
+//       Accept: "application/json",
+//     },
+//   };
+
+//   fetch("https://icanhazdadjoke.com", config)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       jokes.innerHTML = data.joke;
+//     });
+// }
