@@ -1,53 +1,69 @@
-const progress = document.getElementById("progress");
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
-const circles = document.querySelectorAll(".circle");
+const tagsEl = document.getElementById("tags");
+const textarea = document.getElementById("textarea");
 
-let currentActive = 1;
+textarea.focus();
 
-next.addEventListener("click", () => {
-  currentActive++; //incrementing by 1
+textarea.addEventListener("keyup", (e) => {
+  createTags(e.target.value);
 
-  if (currentActive > circles.length) {
-    currentActive = circles.length;
+  if (e.key === "Enter") {
+    setTimeout(() => {
+      e.target.value = "";
+    }, 10);
+
+    randomSelect();
   }
-  // console.log(currentActive);
-
-  update();
 });
 
-prev.addEventListener("click", () => {
-  currentActive--; //decrementing by 1
+function createTags(input) {
+  const tags = input
+    .split(",")
+    .filter((tag) => tag.trim() !== "")
+    .map((tag) => tag.trim());
 
-  if (currentActive < 1) {
-    currentActive = 1;
-  }
+  tagsEl.innerHTML = "";
 
-  update();
-});
-
-function update() {
-  circles.forEach((circle, idx) => {
-    if (idx < currentActive) {
-      circle.classList.add("active");
-    } else {
-      circle.classList.remove("active");
-    }
+  tags.forEach((tag) => {
+    const tagEl = document.createElement("span");
+    tagEl.classList.add("tag");
+    tagEl.innerText = tag;
+    tagsEl.appendChild(tagEl);
   });
+}
 
-  const actives = document.querySelectorAll(".active");
+function randomSelect() {
+  const times = 30;
 
-  // console.log(actives.length / circles.length);
+  const interval = setInterval(() => {
+    const randomTag = pickRandomTag();
 
-  progress.style.width =
-    ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+    highlightTag(randomTag);
 
-  if (currentActive === 1) {
-    prev.disabled = true;
-  } else if (currentActive === circles.length) {
-    next.disabled = true;
-  } else {
-    prev.disabled = false;
-    next.disabled = false;
-  }
+    setTimeout(() => {
+      unHighlightTag(randomTag);
+    }, 100);
+  }, 100);
+
+  setTimeout(() => {
+    clearInterval(interval);
+
+    setTimeout(() => {
+      const randomTag = pickRandomTag();
+
+      highlightTag(randomTag);
+    }, 100);
+  }, times * 100);
+}
+
+function pickRandomTag() {
+  const tags = document.querySelectorAll(".tag");
+  return tags[Math.floor(Math.random() * tags.length)];
+}
+
+function highlightTag(tag) {
+  tag.classList.add("highlight");
+}
+
+function unHighlightTag(tag) {
+  tag.classList.remove("highlight");
 }
